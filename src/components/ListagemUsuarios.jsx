@@ -8,11 +8,20 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import ServiceUsuarios from "../services/usuarios"
+import { useEffect, useState } from "react";
 
 
 function ListagemUsuarios() {
+    const [rows, setRows] = useState([])
 
-    const rows = ServiceUsuarios.getAllUsuarios()
+    useEffect(()=> {
+        ServiceUsuarios.getAllUsuarios().then((response) => {
+            setRows(response.data)
+        }).catch((erro) => {
+            console.log(erro)
+            setRows([])
+        })
+    }, [])
 
     return (<>
         <div className={styles.titulo}>
@@ -31,18 +40,21 @@ function ListagemUsuarios() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
+                        {rows.length > 0 ? rows.map((row) => (
                             <TableRow
-                                key={row.name}
+                                key={row.login}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    {row.name}
+                                    {row.login}
                                 </TableCell>
                                 <TableCell>{row.email}</TableCell>
                                 <TableCell>{row.status ? 'Ativo': 'Inativo' }</TableCell>
                             </TableRow>
-                        ))}
+                        ))
+                        : 
+                        (<></>)
+                    }
                     </TableBody>
                 </Table>
             </TableContainer>

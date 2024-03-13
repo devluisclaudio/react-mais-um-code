@@ -1,8 +1,9 @@
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import styles from "../styles/ModalFormularioUsuarios.module.css"
-import { FormGroup, FormControl, TextField, Card, CardContent, CardActionArea } from '@mui/material';
+import { FormGroup, FormControl, TextField, Card, CardContent, CardActionArea, Button, FormControlLabel, Checkbox } from '@mui/material';
 import { useState } from 'react';
+import api from '../services/api';
 
 
 function ModalFormularioUsuarios({ open, handleClose }) {
@@ -13,14 +14,23 @@ function ModalFormularioUsuarios({ open, handleClose }) {
     const [status, setStatus] = useState(false)
 
     const enviarDados = () => {
-        if( nome === "" || email === "" || senha === ""){
-            
+        if (nome === "" || email === "" || senha === "") {
+
             console.log("Preencha todos os dados")
             return false
         }
 
-        console.log("Dados enviados!")
-        return true
+        let form = {
+            nome: nome,
+            senha: senha,
+            email: email,
+            status: status
+        }
+
+        api.post('/usuarios', form).then((response) => {
+            console.log(response)
+        }).catch((erro) => console.log(erro))
+
     }
 
     return (
@@ -34,7 +44,7 @@ function ModalFormularioUsuarios({ open, handleClose }) {
                 <Card className={styles.card}>
                     <label className={styles.titulo}>Inserir Novo Usuário</label>
                     <CardContent>
-                        <FormGroup className={styles.container} >
+                        <FormGroup className={styles.box} >
                             <FormControl className={styles.inputs} >
                                 <TextField id="outlined-basic" label="Email" variant="outlined"
                                     value={email}
@@ -57,17 +67,22 @@ function ModalFormularioUsuarios({ open, handleClose }) {
                                     }} />
                             </FormControl>
                             <FormControl className={styles.inputs}>
-                                <TextField id="outlined-basic" label="Status" variant="outlined"
-                                    value={status}
-                                    onChange={(event) => {
-                                        setStatus(event.target.value);
-                                    }} />
+                                <FormControlLabel control={
+                                    <Checkbox
+                                        value={status}
+                                        onChange={(event) => {
+                                            setStatus(event.target.checked);
+                                        }}
+                                    />
+                                }
+                                    label="Status"
+                                />
                             </FormControl>
                         </FormGroup>
 
                     </CardContent>
-                    <CardActionArea>
-                        <button onClick={enviarDados}>Salvar</button>
+                    <CardActionArea className={styles.botao}>
+                        <Button onClick={enviarDados} variant="contained">Salvar</Button>
                     </CardActionArea>
                 </Card>
             </Box>
