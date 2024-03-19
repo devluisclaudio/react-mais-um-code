@@ -9,13 +9,20 @@ const usuarios = {
     },
 
 
-    getUsuariosId: (id) => {
-        return {
-            login: 'Luis Claudio',
-            email: 'luis@email.com',
-            status: true,
-        }
-    }
+    getUsuariosId: async (id) => {
+        return api.get(`/usuarios/${id}`) 
+    },
+
+    editUsuariosId: async (id , body) => {
+        return api.put(`/usuarios/${id}` , body) 
+    },
+    createUsuarios: async (body) =>{
+
+        return api.post('/usuarios', body)
+    },
+    deleteUsuariosId: async (id) => {
+        return api.delete(`/usuarios/${id}`) 
+    },
 
 }
 

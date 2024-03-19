@@ -6,3 +6,13 @@
     width: 80%;
     margin: 0 auto;
 }
+
+.celulaunica{
+   text-align: center !important;
+   font-size: large !important;
+   font-weight: bold !important;
+}
+
+.linhas{
+    cursor: pointer;
+}

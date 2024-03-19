@@ -3,7 +3,8 @@ import styles from "../styles/ModalFormularioUsuarios.module.css"
 import { Box } from '@mui/material';
 
 
-function ModalGenerico({ open, handleClose, children }) {
+function ModalGenerico({ open, handleClose , cor, title, message }) {
+
 
 
     return (
@@ -13,8 +14,10 @@ function ModalGenerico({ open, handleClose, children }) {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box className={styles.container}>
-                {children}
+            <Box className={styles.centralizaModal}>
+                <h1 style={{color: cor}}> {title} </h1>
+
+                <h4>{message}</h4>
             </Box>
         </Modal>
 

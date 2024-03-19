@@ -7,16 +7,23 @@ import { useState } from "react"
 
 function Usuarios() {
     const [abreModal, setAbreModal] = useState(false)
+    const [idUser, setidUser] = useState(null)
 
     const abrirModal = () => {
+        setidUser(null)
+        setAbreModal(true)
+    }
+
+    const editarUsuario = ( id ) => {
+        setidUser(id)
         setAbreModal(true)
     }
 
     return (<>
         <Navbar />
-        <ListagemUsuarios />
+        <ListagemUsuarios reload={abreModal} handleEditar={editarUsuario}/>
         <BotaoFlutuante aoClicar={abrirModal} />
-        <ModalFormularioUsuarios open={abreModal}  handleClose ={ () => setAbreModal(false)}/>
+        <ModalFormularioUsuarios open={abreModal}  handleClose ={ () => setAbreModal(false)} idUsuario={idUser}/>
     </>
     )
 }
